@@ -50,4 +50,20 @@ h1, h2 {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
+    position: relative;
+}
+
+.post button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.post button:hover {
+    background-color: #c82333;
 }
