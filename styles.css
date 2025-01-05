@@ -62,6 +62,7 @@ h1 {
     border: none;
     cursor: pointer;
     padding: 5px 10px;
+    margin-left: 10px;
 }
 
 .post button:hover {
