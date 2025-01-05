@@ -1,55 +1,40 @@
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    databaseURL: "YOUR_DATABASE_URL",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
 function loadPosts() {
-    const postsRef = database.ref('posts');
-    postsRef.on('value', (snapshot) => {
-        const posts = snapshot.val();
-        const postsDiv = document.getElementById('posts');
-        postsDiv.innerHTML = '';
-        Object.keys(posts).forEach(key => {
-            const post = posts[key];
-            const postElement = document.createElement('div');
-            postElement.classList.add('post');
-            postElement.innerHTML = `
-                <p>${post.content}</p>
-                <button onclick="deletePost('${key}')">删除</button>
-                <button onclick="editPost('${key}')">编辑</button>
-            `;
-            postsDiv.appendChild(postElement);
-        });
+    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    const postsDiv = document.getElementById('posts');
+    postsDiv.innerHTML = '';
+    posts.forEach((post, index) => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+            <p>${post.content}</p>
+            <button onclick="deletePost(${index})">删除</button>
+            <button onclick="editPost(${index})">编辑</button>
+        `;
+        postsDiv.appendChild(postElement);
     });
 }
 
 function addPost(content) {
-    const newPostRef = database.ref('posts').push();
-    newPostRef.set({
-        content: content
-    });
+    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    posts.push({ content: content });
+    localStorage.setItem('posts', JSON.stringify(posts));
+    loadPosts();
 }
 
-function deletePost(postId) {
-    const postRef = database.ref(`posts/${postId}`);
-    postRef.remove();
+function deletePost(index) {
+    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    posts.splice(index, 1);
+    localStorage.setItem('posts', JSON.stringify(posts));
+    loadPosts();
 }
 
-function editPost(postId) {
-    const content = prompt('请输入新的帖子内容：', '');
-    if (content) {
-        const postRef = database.ref(`posts/${postId}`);
-        postRef.update({
-            content: content
-        });
+function editPost(index) {
+    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    const newContent = prompt('请输入新的帖子内容：', posts[index].content);
+    if (newContent) {
+        posts[index].content = newContent;
+        localStorage.setItem('posts', JSON.stringify(posts));
+        loadPosts();
     }
 }
 
