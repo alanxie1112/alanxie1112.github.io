@@ -17,14 +17,6 @@ h1, h2 {
     color: #333;
 }
 
-.forum {
-    margin-bottom: 20px;
-}
-
-.posts {
-    margin-top: 10px;
-}
-
 .post-form {
     margin-top: 20px;
 }
@@ -47,4 +39,15 @@ h1, h2 {
 
 #post-button:hover {
     background-color: #0056b3;
+}
+
+.posts {
+    margin-bottom: 20px;
+}
+
+.post {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
 }
