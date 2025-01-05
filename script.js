@@ -23,18 +23,22 @@ function addPost(content) {
 
 function deletePost(index) {
     const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-    posts.splice(index, 1);
-    localStorage.setItem('posts', JSON.stringify(posts));
-    loadPosts();
+    if (index >= 0 && index < posts.length) {
+        posts.splice(index, 1);
+        localStorage.setItem('posts', JSON.stringify(posts));
+        loadPosts();
+    }
 }
 
 function editPost(index) {
     const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-    const newContent = prompt('请输入新的帖子内容：', posts[index].content);
-    if (newContent) {
-        posts[index].content = newContent;
-        localStorage.setItem('posts', JSON.stringify(posts));
-        loadPosts();
+    if (index >= 0 && index < posts.length) {
+        const newContent = prompt('请输入新的帖子内容：', posts[index].content);
+        if (newContent) {
+            posts[index].content = newContent;
+            localStorage.setItem('posts', JSON.stringify(posts));
+            loadPosts();
+        }
     }
 }
 
